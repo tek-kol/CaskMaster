@@ -10,7 +10,7 @@
 * store the AllegisgroupCorporateIssuingCA certificate in the Java keystore 
   * hints:
     * download the cert from browser
-    * add the certificate to the keystroe via comand line
+    * add the certificate to the keystore via command line
 
 
 ### Assignment 1
