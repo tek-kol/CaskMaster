@@ -11,7 +11,7 @@ public class TestClazz {
         RestTemplate restTemplate = new RestTemplate();
         String fooResourceUrl = "https://api.openbrewerydb.org/v1/breweries";
         ResponseEntity<String> response
-                = restTemplate.getForEntity(fooResourceUrl + "/1", String.class);
+                = restTemplate.getForEntity(fooResourceUrl, String.class);
         Assertions.assertEquals(response.getStatusCode(), HttpStatus.OK);
 
 
