@@ -1,0 +1,13 @@
+@startuml
+autonumber
+header Page Header
+title Get All Breweries REST Request
+
+Caller -> controller: submit  request
+controller -> service: call service method to retrive data
+service --> RestTemplate: call brewery endpoint
+service <-- RestTemplate: endpoint response
+controller <-- service: return payload from response
+controller --> Caller: return data as ResponseEntity
+
+@enduml
