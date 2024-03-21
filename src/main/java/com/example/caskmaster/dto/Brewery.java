@@ -1,4 +1,4 @@
-package com.example.caskmaster.model;
+package com.example.caskmaster.dto;
 
 public class Brewery {
     private String id;
