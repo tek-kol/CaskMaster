@@ -19,7 +19,6 @@ public class BreweryServiceTest {
     ObjectMapper mapper = new ObjectMapper();
 
     private static final String API_URL = "https://api.openbrewerydb.org/v1/breweries";
-
     @Test
     void getBrewery() {
         String id = "/b54b16e1-ac3b-4bff-a11f-f7ae9ddc27e0";
@@ -54,17 +53,16 @@ public class BreweryServiceTest {
     void searchForBreweries(){
         String searchURL = "/search?query=san%20diego&per_page=3";
 
-        List<Brewery> list;
-
-        ResponseEntity<List<Brewery>> response= restTemplate.exchange(
+        ResponseEntity<List<Brewery>> response = restTemplate.exchange(
                 API_URL + searchURL,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {});
 
-        list = response.getBody();
+        List<Brewery> list = response.getBody();
+
         System.out.println(response.getStatusCode());
-        System.out.println(response.getBody());
+        System.out.println(list);
 
         Assertions.assertFalse(list.isEmpty());
     }
@@ -81,7 +79,6 @@ public class BreweryServiceTest {
                 new ParameterizedTypeReference<>() {});
 
         list = response.getBody();
-
         Assertions.assertFalse(list.isEmpty());
     }
 

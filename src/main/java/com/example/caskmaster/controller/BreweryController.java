@@ -1,6 +1,7 @@
 package com.example.caskmaster.controller;
 
 import com.example.caskmaster.dto.Brewery;
+import com.example.caskmaster.dto.MetaData;
 import com.example.caskmaster.service.BreweryServiceImpl;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -42,9 +43,9 @@ public class BreweryController {
         return new ResponseEntity<>(list, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/breweries/search?query={query}")
-    public ResponseEntity<List<Brewery>> searchForBreweries(@PathVariable("query") String query) {
-        List<Brewery> list = breweryServiceImpl.searchForBreweries(query);
+    @GetMapping("/breweries/search?query={criteria}")
+    public ResponseEntity<List<Brewery>> searchForBreweries(@PathVariable("criteria") String criteria) {
+        List<Brewery> list = breweryServiceImpl.searchForBreweries(criteria);
 
         if (list.isEmpty()){
             return new ResponseEntity<>(list, HttpStatusCode.valueOf(404));
@@ -64,4 +65,16 @@ public class BreweryController {
         return new ResponseEntity<>(list, HttpStatusCode.valueOf(200));
     }
 
+    @GetMapping("/breweries/meta{criteria}")
+    public ResponseEntity<MetaData> getMetaData(@PathVariable("criteria") String criteria) {
+        MetaData metaData = breweryServiceImpl.getMetaData(criteria);
+
+        if (metaData.equals(new MetaData())) {
+            return new ResponseEntity<>(metaData, HttpStatusCode.valueOf(404));
+        }
+
+        return new ResponseEntity<>(metaData, HttpStatusCode.valueOf(200));
+    }
+
 }
+

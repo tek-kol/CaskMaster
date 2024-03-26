@@ -34,7 +34,9 @@
     > Assertions.assertTrue(response.getBody() instanceof Brewery);
 [ ] I want a central place to organize my URLs, where should that live? What extension?
     >
-[ ] Test.searchForBreweries is being garbage: In browser returns Array, in test, empty
+[ ] Test.searchForBreweries is being garbage: In browser returns Array, in test, empty.
+! SSL Error: Self signed certificate in certificate chain !
+    >
 
 
 [Cosmetic]           

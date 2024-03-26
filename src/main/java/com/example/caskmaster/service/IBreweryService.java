@@ -1,6 +1,7 @@
 package com.example.caskmaster.service;
 
 import com.example.caskmaster.dto.Brewery;
+import com.example.caskmaster.dto.MetaData;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public interface IBreweryService {
 
     List<Brewery> getRandomBrewery();
 
-    // TODO: add getMetaData call
+    MetaData getMetaData(String... criteria);
+
 }
 
