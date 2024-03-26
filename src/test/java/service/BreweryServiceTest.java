@@ -1,15 +1,17 @@
 package service;
 
 import com.example.caskmaster.dto.Brewery;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.mockito.Mock;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BreweryServiceTest {
@@ -19,46 +21,68 @@ public class BreweryServiceTest {
     private static final String API_URL = "https://api.openbrewerydb.org/v1/breweries";
 
     @Test
-    void getBrewery() throws Exception {
+    void getBrewery() {
         String id = "/b54b16e1-ac3b-4bff-a11f-f7ae9ddc27e0";
+        Brewery brewery;
 
-        Brewery response = restTemplate.exchange(
+        ResponseEntity<Brewery> response = restTemplate.exchange(
                         API_URL + id,
                         HttpMethod.GET,
                         null,
-                        new ParameterizedTypeReference<Brewery>() {}
-                )
-                .getBody();
-        System.out.println("**********************************");
-        System.out.println(response);
-        System.out.println("**********************************");
-        Assertions.assertTrue(response.equals(Brewery.class));
+                        new ParameterizedTypeReference<>() {}
+                );
+        brewery = response.getBody();
+
+        Assertions.assertInstanceOf(Brewery.class, brewery);
     }
 
     @Test
-    void getAllBreweries() {
-        List<Brewery> response =  restTemplate.exchange(
+    void getBreweries() {
+        List<Brewery> list;
+        ResponseEntity<List<Brewery>> response= restTemplate.exchange(
             API_URL,
             HttpMethod.GET,
             null,
-            new ParameterizedTypeReference<List<Brewery>>() {})
-            .getBody();
+            new ParameterizedTypeReference<>() {});
 
-//        for (Brewery e : response) {
-//            System.out.println(e.getName());
-//        }
+        list = response.getBody();
 
-        Assertions.assertFalse(response.isEmpty());
+        Assertions.assertFalse(list.isEmpty());
     }
 
     @Test
     void searchForBreweries(){
+        String searchURL = "/search?query=san%20diego&per_page=3";
 
+        List<Brewery> list;
+
+        ResponseEntity<List<Brewery>> response= restTemplate.exchange(
+                API_URL + searchURL,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {});
+
+        list = response.getBody();
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody());
+
+        Assertions.assertFalse(list.isEmpty());
     }
 
     @Test
     void getRandomBrewery() {
+        String randomURL = "/random";
 
+        List<Brewery> list;
+        ResponseEntity<List<Brewery>> response= restTemplate.exchange(
+                API_URL + randomURL,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {});
+
+        list = response.getBody();
+
+        Assertions.assertFalse(list.isEmpty());
     }
 
 }

@@ -13,33 +13,42 @@
         * Implement the interface methods
         * test each method returns the expected results
       
+
+
+
 [Todo]
+!! [ ] EoD Git Push !!
 [+] Make a package for Test.Service
-    [ ] Add BreweryServiceTest tests
+    [-] Add BreweryServiceTest tests
     [ ] Add the rest of the IBreweryService
-    [ ] Test
 !! Have the Test directory mirror the codebase + "Test" designator. !!
 [ ] Export BreweryServiceTest tests to codebase
 [ ] Figure out what this 'MetaData' business is about
 
 
 [Code]
-[ ] BreweryController: What do we want to return? Json right? Or will the frontend prefer our List<Brewery>?
+
+[+] BreweryController: What do we want to return? Json right? Or will the frontend prefer our List<Brewery>?
+    > ResponseEntity agnostic to dataType, +  returnCode(xxx)
+[+] BreweryServiceTest: getBrewery(), I am assigning Brewery = res, but when I assertTrue that res == Brewery.class; It fails, why?
+    > Assertions.assertTrue(response.getBody() instanceof Brewery);
+[ ] I want a central place to organize my URLs, where should that live? What extension?
     >
-[ ] BreweryServiceTest: getBrewery(), I am assigning Brewery = res, but when I assertTrue that res == Brewery.class; It fails, why?
-    >
-anxious 
+[ ] Test.searchForBreweries is being garbage: In browser returns Array, in test, empty
+
 
 [Cosmetic]           
 Redundant code?       
-... It just looks better to me. y/n?
-    >
+[+] It just looks better to me. y/n?
+    > Don't chain functions
 
-'impl' Looks ugly, do I need Impl?
+[ ]'impl' Looks ugly, do I need Impl?
 Will there be another class called 'BreweryService'?
     >
 
 
+reduce copy paste
+set default value
 
 
 
@@ -47,6 +56,8 @@ Will there be another class called 'BreweryService'?
 Interface is to classes like Flower is to Rose, Lily, Daisy. 
 Cannot instantiate a FLower without a subclass.
 !! Is used to decouple code, adding flexibility. !!
+
+change return type to the proper type response entity.
 
 
 
