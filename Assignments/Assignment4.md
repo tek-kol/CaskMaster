@@ -71,4 +71,6 @@ getBrews and BrewByID
 StringBuilder is hint
 
 
+pull out a method and do
 
+How to handle a collection

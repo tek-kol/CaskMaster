@@ -6,12 +6,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,18 +17,18 @@ public class BreweryServiceImpl implements BreweryService {
     RestTemplate restTemplate = new RestTemplate();
     ObjectMapper mapper = new ObjectMapper();
 
-    private static final String API_URL = "https://api.openbrewerydb.org/v1/breweries";
+    private static final String BASE_URL = "https://api.openbrewerydb.org/v1/breweries";
 
 
     @Override
-    public Brewery getBrewery(String id) {
-        ResponseEntity<Brewery> responseEntity = execute(id);
-        return responseEntity.getBody();
+    public Brewery getBrewery(String id){
+        ResponseEntity<Brewery> response = restTemplate.getForEntity(buildUrl(id), Brewery.class);
+        return response.getBody();
     }
 
     @Override
     public List<Brewery> getBreweries() {
-        ResponseEntity<List<Brewery>> responseEntity = execute();
+        ResponseEntity<List<Brewery>> responseEntity = execute(BASE_URL);
         return responseEntity.getBody();
     }
 
@@ -53,7 +51,7 @@ public class BreweryServiceImpl implements BreweryService {
         MetaData metaData = new MetaData();
         try {
             ResponseEntity<MetaData> response = restTemplate.exchange(
-                    API_URL + metaDataURl + criteria,
+                    BASE_URL + metaDataURl + criteria,
                     HttpMethod.GET,
                     null,
                     new ParameterizedTypeReference<>() {
@@ -67,43 +65,22 @@ public class BreweryServiceImpl implements BreweryService {
         return metaData;
     }
 
-    private ResponseEntity execute() {
-        try {
-            ResponseEntity<List<Brewery>> response = restTemplate.exchange(
-                    API_URL,
-                    HttpMethod.GET,
-                    null,
-                    new ParameterizedTypeReference<>() {
-                    }
-            );
-            return response;
-        } catch (RestClientException e) {
-            // Todo: Log error
-            System.out.println(e);
-            return null;
-        }
+    private ResponseEntity execute(String url) {
+        ResponseEntity<List<Brewery>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<>() {
+                }
+        );
+        return response;
     }
 
-    private ResponseEntity execute(String id) {
-        StringBuilder url = new StringBuilder(API_URL);
-        url.append("/" + id);
-        try {
-            ResponseEntity<Brewery> response = restTemplate.exchange(
-                    url.toString(),
-                    HttpMethod.GET,
-                    null,
-                    new ParameterizedTypeReference<>() {
-                    }
-            );
-            return response;
-        } catch (RestClientException e) {
-            // Todo: Log error
-            System.out.println(e);
-            return null;
-        }
+    private String buildUrl(String fragment) {
+        StringBuilder url = new StringBuilder(BASE_URL);
+        url.append("/" + fragment);
+        return url.toString();
     }
-
-
 
 
 }
