@@ -1,7 +1,7 @@
 package com.example.caskmaster.controller;
 
 import com.example.caskmaster.dto.Brewery;
-import com.example.caskmaster.dto.MetaData;
+import com.example.caskmaster.dto.BreweryApiMetaData;
 import com.example.caskmaster.service.BreweryServiceImpl;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -66,14 +66,14 @@ public class BreweryController {
     }
 
     @GetMapping("/breweries/meta")
-    public ResponseEntity<MetaData> getMetaData(@PathVariable("criteria") String criteria) {
-        MetaData metaData = breweryServiceImpl.getMetaData(criteria);
+    public ResponseEntity<BreweryApiMetaData> getMetaData(@PathVariable("criteria") String criteria) {
+        BreweryApiMetaData breweryApiMetaData = breweryServiceImpl.getMetaData(criteria);
 
-        if (metaData.equals(new MetaData())) {
-            return new ResponseEntity<>(metaData, HttpStatusCode.valueOf(404));
+        if (breweryApiMetaData.equals(new BreweryApiMetaData())) {
+            return new ResponseEntity<>(breweryApiMetaData, HttpStatusCode.valueOf(404));
         }
 
-        return new ResponseEntity<>(metaData, HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(breweryApiMetaData, HttpStatusCode.valueOf(200));
     }
 
 }

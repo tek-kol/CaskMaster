@@ -1,7 +1,7 @@
 package com.example.caskmaster.service;
 
 import com.example.caskmaster.dto.Brewery;
-import com.example.caskmaster.dto.MetaData;
+import com.example.caskmaster.dto.BreweryApiMetaData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -45,24 +45,24 @@ public class BreweryServiceImpl implements BreweryService {
     }
 
     @Override
-    public MetaData getMetaData(String... criteria) {
+    public BreweryApiMetaData getMetaData(String... criteria) {
         // Todo: Dont leave metaDataURL
         String metaDataURl = "/meta";
-        MetaData metaData = new MetaData();
+        BreweryApiMetaData breweryApiMetaData = new BreweryApiMetaData();
         try {
-            ResponseEntity<MetaData> response = restTemplate.exchange(
+            ResponseEntity<BreweryApiMetaData> response = restTemplate.exchange(
                     BASE_URL + metaDataURl + criteria,
                     HttpMethod.GET,
                     null,
                     new ParameterizedTypeReference<>() {
                     }
             );
-            metaData = response.getBody();
-            return metaData;
+            breweryApiMetaData = response.getBody();
+            return breweryApiMetaData;
         } catch (RestClientException e) {
             // Todo: Log
         }
-        return metaData;
+        return breweryApiMetaData;
     }
 
     private ResponseEntity execute(String url) {

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class MetaData {
+public class BreweryApiMetaData {
     private String total;
     private String page;
     @JsonProperty("per_page")

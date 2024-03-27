@@ -1,7 +1,7 @@
 package com.example.caskmaster.service;
 
 import com.example.caskmaster.dto.Brewery;
-import com.example.caskmaster.dto.MetaData;
+import com.example.caskmaster.dto.BreweryApiMetaData;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface BreweryService {
 
     List<Brewery> getRandomBrewery();
 
-    MetaData getMetaData(String... criteria);
+    BreweryApiMetaData getMetaData(String... criteria);
 
 }
 
