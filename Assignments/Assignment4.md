@@ -17,13 +17,13 @@
 
 
 [Todo]
-!! [ ] EoD Git Push !!
+!! [Δ] EoD Git Push !!
 [+] Make a package for Test.Service
-    [-] Add BreweryServiceTest tests
-    [ ] Add the rest of the IBreweryService
+    [+] Add BreweryServiceTest tests
+    [+] Add the rest of the IBreweryService
 !! Have the Test directory mirror the codebase + "Test" designator. !!
-[ ] Export BreweryServiceTest tests to codebase
-[ ] Figure out what this 'MetaData' business is about
+[+] Export BreweryServiceTest tests to codebase
+[-] Figure out what this 'MetaData' business is about
 
 
 [Code]
@@ -32,21 +32,23 @@
     > ResponseEntity agnostic to dataType, +  returnCode(xxx)
 [+] BreweryServiceTest: getBrewery(), I am assigning Brewery = res, but when I assertTrue that res == Brewery.class; It fails, why?
     > Assertions.assertTrue(response.getBody() instanceof Brewery);
-[ ] I want a central place to organize my URLs, where should that live? What extension?
-    >
-[ ] Test.searchForBreweries is being garbage: In browser returns Array, in test, empty.
+[+] I want a central place to organize my URLs, where should that live? What extension?
+    > Lives in a future assignment
+[+] Test.searchForBreweries is being garbage: In browser returns Array, in test, empty.
 ! SSL Error: Self signed certificate in certificate chain !
+    > Make sure you are not trying to hit API endpoints from CaskMaster endpoints. Two different systems, dur.
+[ ] Search ById, when returning a null, what do we do with that? Why not return an empty?
+    // Optionals?
     >
-
 
 [Cosmetic]           
 Redundant code?       
 [+] It just looks better to me. y/n?
     > Don't chain functions
 
-[ ]'impl' Looks ugly, do I need Impl?
+[+]'impl' Looks ugly, do I need Impl?
 Will there be another class called 'BreweryService'?
-    >
+    > It's Uggo, but is proper conventions, get over it.
 
 
 reduce copy paste
@@ -61,6 +63,12 @@ Cannot instantiate a FLower without a subclass.
 
 change return type to the proper type response entity.
 
+
+
+
+!!!!
+getBrews and BrewByID
+StringBuilder is hint
 
 
 
