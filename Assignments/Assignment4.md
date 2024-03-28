@@ -23,7 +23,7 @@
     [+] Add the rest of the IBreweryService
 !! Have the Test directory mirror the codebase + "Test" designator. !!
 [+] Export BreweryServiceTest tests to codebase
-[-] Figure out what this 'MetaData' business is about
+[+] Figure out what this 'MetaData' business is about
 
 
 [Code]
@@ -35,11 +35,11 @@
 [+] I want a central place to organize my URLs, where should that live? What extension?
     > Lives in a future assignment
 [+] Test.searchForBreweries is being garbage: In browser returns Array, in test, empty.
-! SSL Error: Self signed certificate in certificate chain !
+    ! SSL Error: Self signed certificate in certificate chain !
     > Make sure you are not trying to hit API endpoints from CaskMaster endpoints. Two different systems, dur.
-[ ] Search ById, when returning a null, what do we do with that? Why not return an empty?
+[!] Search ById, when returning a null, what do we do with that? Why not return an empty?
     // Optionals?
-    >
+    > Save it for error handling assignment
 
 [Cosmetic]           
 Redundant code?       
@@ -63,6 +63,10 @@ Cannot instantiate a FLower without a subclass.
 
 change return type to the proper type response entity.
 
+Gracefully separate error handling
+
+[ ] Search 
+    [ ] Invert
 
 
 

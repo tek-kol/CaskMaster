@@ -23,7 +23,9 @@ public class BreweryServiceImpl implements BreweryService {
 
     @Override
     public Brewery getBrewery(String id){
-        ResponseEntity<Brewery> response = restTemplate.getForEntity(buildUrl(id), Brewery.class);
+        StringBuilder fragment = new StringBuilder();
+        fragment.append(buildUrl(id));
+        ResponseEntity<Brewery> response = restTemplate.getForEntity(fragment.toString(), Brewery.class);
         return response.getBody();
     }
 
@@ -35,18 +37,24 @@ public class BreweryServiceImpl implements BreweryService {
 
     @Override
     public List<Brewery> searchForBreweries(String... criteria) {
-        return null;
+        // Todo: See Test
+        //  We can compose a valid URI now
+        //  Need to consume params from GET
+
+
+        ResponseEntity<List<Brewery>> response = execute(buildUrl("search"));
+        return response.getBody();
     }
 
     @Override
     public List<Brewery> getRandomBrewery() {
-        ResponseEntity<List<Brewery>> response = execute(buildUrl("/random"));
+        ResponseEntity<List<Brewery>> response = execute(buildUrl("random"));
         return response.getBody();
     }
 
     @Override
     public BreweryApiMetaData getMetaData() {
-        ResponseEntity<BreweryApiMetaData> response = restTemplate.getForEntity(buildUrl("/meta"), BreweryApiMetaData.class);
+        ResponseEntity<BreweryApiMetaData> response = restTemplate.getForEntity(buildUrl("meta"), BreweryApiMetaData.class);
         return response.getBody();
     }
 
@@ -62,8 +70,12 @@ public class BreweryServiceImpl implements BreweryService {
     }
 
     private String buildUrl(String fragment) {
+        // Todo: Implement DefaultUriBuilderFactory here.
+        //  Or overload buildUrl to accept Map<String, String>
+        //  Any call that adds a parameter will need to employ the UriBuilder
+        //  Note: Will build the BASE_URL with empty or no data.
         StringBuilder url = new StringBuilder(BASE_URL);
-        url.append(fragment);
+        url.append("/").append(fragment);
         return url.toString();
     }
 

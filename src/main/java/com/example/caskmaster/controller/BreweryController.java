@@ -7,11 +7,13 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/breweries")
 public class BreweryController {
 
     private final BreweryServiceImpl breweryServiceImpl;
@@ -21,7 +23,7 @@ public class BreweryController {
     }
 
 
-    @GetMapping("/breweries/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Brewery> getBrewery(@PathVariable String id) {
         Brewery brewery = breweryServiceImpl.getBrewery(id);
 
@@ -32,7 +34,6 @@ public class BreweryController {
         return new ResponseEntity<>(brewery, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/breweries")
     public ResponseEntity<List<Brewery>> getBreweries() {
         List<Brewery> list = breweryServiceImpl.getBreweries();
 
@@ -43,7 +44,7 @@ public class BreweryController {
         return new ResponseEntity<>(list, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/breweries/search")
+    @GetMapping("/search")
     public ResponseEntity<List<Brewery>> searchForBreweries(@PathVariable("criteria") String criteria) {
         List<Brewery> list = breweryServiceImpl.searchForBreweries(criteria);
 
@@ -54,7 +55,7 @@ public class BreweryController {
         return new ResponseEntity<>(list, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/breweries/random")
+    @GetMapping("/random")
     public ResponseEntity<List<Brewery>> getRandomBreweries() {
         List<Brewery> list = breweryServiceImpl.getRandomBrewery();
 
@@ -65,7 +66,7 @@ public class BreweryController {
         return new ResponseEntity<>(list, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/breweries/meta")
+    @GetMapping("/meta")
     public ResponseEntity<BreweryApiMetaData> getMetaData() {
         BreweryApiMetaData breweryApiMetaData = breweryServiceImpl.getMetaData();
 
