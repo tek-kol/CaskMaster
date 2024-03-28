@@ -21,8 +21,8 @@ public class BreweryController {
     }
 
 
-    @GetMapping("/brewery/{id}")
-    public ResponseEntity<Brewery> getBrewery(@PathVariable("id") String id) {
+    @GetMapping("/breweries/{id}")
+    public ResponseEntity<Brewery> getBrewery(@PathVariable String id) {
         Brewery brewery = breweryServiceImpl.getBrewery(id);
 
         if (brewery.equals(null)) {
@@ -66,15 +66,14 @@ public class BreweryController {
     }
 
     @GetMapping("/breweries/meta")
-    public ResponseEntity<BreweryApiMetaData> getMetaData(@PathVariable("criteria") String criteria) {
-        BreweryApiMetaData breweryApiMetaData = breweryServiceImpl.getMetaData(criteria);
+    public ResponseEntity<BreweryApiMetaData> getMetaData() {
+        BreweryApiMetaData breweryApiMetaData = breweryServiceImpl.getMetaData();
 
-        if (breweryApiMetaData.equals(new BreweryApiMetaData())) {
+        if (breweryApiMetaData.equals(null)){
             return new ResponseEntity<>(breweryApiMetaData, HttpStatusCode.valueOf(404));
         }
 
-        return new ResponseEntity<>(breweryApiMetaData, HttpStatusCode.valueOf(200));
-    }
+        return new ResponseEntity<>(breweryApiMetaData, HttpStatusCode.valueOf(200));    }
 
 }
 

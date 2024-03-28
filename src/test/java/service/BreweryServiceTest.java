@@ -51,18 +51,17 @@ public class BreweryServiceTest {
 
     @Test
     void searchForBreweries(){
-        String searchURL = "/search?query=san%20diego&per_page=3";
+        List<Brewery> list;
+        String searchURL = "https://api.openbrewerydb.org/v1/breweries/search?query=san%20diego";
 
         ResponseEntity<List<Brewery>> response = restTemplate.exchange(
-                API_URL + searchURL,
+                API_URL,
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {});
 
-        List<Brewery> list = response.getBody();
-
-        System.out.println(response.getStatusCode());
-        System.out.println(list);
+        list = response.getBody();
+        System.out.println(list.size());
 
         Assertions.assertFalse(list.isEmpty());
     }

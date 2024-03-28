@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,30 +40,14 @@ public class BreweryServiceImpl implements BreweryService {
 
     @Override
     public List<Brewery> getRandomBrewery() {
-        String randomURL = "/random";
-        ResponseEntity<List<Brewery>> responseEntity = execute(randomURL);
-        return responseEntity.getBody();
+        ResponseEntity<List<Brewery>> response = execute(buildUrl("/random"));
+        return response.getBody();
     }
 
     @Override
-    public BreweryApiMetaData getMetaData(String... criteria) {
-        // Todo: Dont leave metaDataURL
-        String metaDataURl = "/meta";
-        BreweryApiMetaData breweryApiMetaData = new BreweryApiMetaData();
-        try {
-            ResponseEntity<BreweryApiMetaData> response = restTemplate.exchange(
-                    BASE_URL + metaDataURl + criteria,
-                    HttpMethod.GET,
-                    null,
-                    new ParameterizedTypeReference<>() {
-                    }
-            );
-            breweryApiMetaData = response.getBody();
-            return breweryApiMetaData;
-        } catch (RestClientException e) {
-            // Todo: Log
-        }
-        return breweryApiMetaData;
+    public BreweryApiMetaData getMetaData() {
+        ResponseEntity<BreweryApiMetaData> response = restTemplate.getForEntity(buildUrl("/meta"), BreweryApiMetaData.class);
+        return response.getBody();
     }
 
     private ResponseEntity execute(String url) {
@@ -78,7 +63,7 @@ public class BreweryServiceImpl implements BreweryService {
 
     private String buildUrl(String fragment) {
         StringBuilder url = new StringBuilder(BASE_URL);
-        url.append("/" + fragment);
+        url.append(fragment);
         return url.toString();
     }
 

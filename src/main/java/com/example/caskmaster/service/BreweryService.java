@@ -15,7 +15,7 @@ public interface BreweryService {
 
     List<Brewery> getRandomBrewery();
 
-    BreweryApiMetaData getMetaData(String... criteria);
+    BreweryApiMetaData getMetaData();
 
 }
 

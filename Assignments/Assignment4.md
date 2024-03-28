@@ -67,10 +67,5 @@ change return type to the proper type response entity.
 
 
 !!!!
-getBrews and BrewByID
-StringBuilder is hint
-
-
-pull out a method and do
 
 How to handle a collection
