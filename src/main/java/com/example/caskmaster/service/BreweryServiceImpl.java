@@ -41,7 +41,8 @@ public class BreweryServiceImpl implements BreweryService {
 
     @Override
     public List<Brewery> searchForBreweries(SearchCriteria searchCriteria) {
-        ResponseEntity<List<Brewery>> response = execute(buildUrl("search", searchCriteria));
+        String url = buildUrl("search", searchCriteria);
+        ResponseEntity<List<Brewery>> response = execute(url);
         return response.getBody();
     }
 

@@ -38,7 +38,7 @@ public class BreweryController {
         List<Brewery> list = breweryServiceImpl.getBreweries();
 
 
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             return new ResponseEntity<>(list, HttpStatusCode.valueOf(404));
         }
 
@@ -49,7 +49,7 @@ public class BreweryController {
     public ResponseEntity<List<Brewery>> searchForBreweries(@RequestBody SearchCriteria searchCriteria) {
         List<Brewery> list = breweryServiceImpl.searchForBreweries(searchCriteria);
 
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             return new ResponseEntity<>(list, HttpStatusCode.valueOf(404));
         }
 
@@ -57,23 +57,19 @@ public class BreweryController {
     }
 
     @GetMapping("/search2")
-    public ResponseEntity<List<Brewery>> searchTest(
-            @RequestParam("qq") String searchTerm,
-            @RequestParam("pp") int perPage)
-    {
+    public ResponseEntity<List<Brewery>> searchTest(@RequestParam("qq") String searchTerm, @RequestParam("pp") int perPage) {
         // Todo http://localhost:8080/breweries/search2  ?  query = jackson  &  per_page = 2
         //  Issue: If I were to use 'san%20diego' as the query:
         //    I need to deserialize it before assigning it to the SearchCriteria obj.
-        System.out.println("******");
-        SearchCriteria searchCriteria = new SearchCriteria();
-        searchCriteria.setSearchTerm(searchTerm);
-        searchCriteria.setPerPage(perPage);
+
+        SearchCriteria searchCriteria = SearchCriteria
+                .builder()
+                .searchTerm(searchTerm)
+                .perPage(perPage)
+                .build();
 
         List<Brewery> list = breweryServiceImpl.searchForBreweries(searchCriteria);
-
-        System.out.println("SEARCH BREWERY");
-
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             return new ResponseEntity<>(list, HttpStatusCode.valueOf(404));
         }
 
@@ -81,12 +77,11 @@ public class BreweryController {
     }
 
 
-
     @GetMapping("/random")
     public ResponseEntity<List<Brewery>> getRandomBreweries() {
         List<Brewery> list = breweryServiceImpl.getRandomBrewery();
 
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             return new ResponseEntity<>(list, HttpStatusCode.valueOf(404));
         }
 
@@ -97,11 +92,12 @@ public class BreweryController {
     public ResponseEntity<BreweryApiMetaData> getMetaData() {
         BreweryApiMetaData breweryApiMetaData = breweryServiceImpl.getMetaData();
 
-        if (breweryApiMetaData.equals(null)){
+        if (breweryApiMetaData.equals(null)) {
             return new ResponseEntity<>(breweryApiMetaData, HttpStatusCode.valueOf(404));
         }
 
-        return new ResponseEntity<>(breweryApiMetaData, HttpStatusCode.valueOf(200));    }
+        return new ResponseEntity<>(breweryApiMetaData, HttpStatusCode.valueOf(200));
+    }
 
 }
 
