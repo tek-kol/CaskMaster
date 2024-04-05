@@ -7,5 +7,5 @@ You are updating the username policy on your company's internal networking platf
 * The first character of the username must be an alphabetic character.
 * The username must contain at least one underscore and one digit.
 
-Write an algorithm that meets these requirements.
+Write an algorithm that validates if the username meets these requirements. Return true if the requirements are met, otherwise return false.
 Write unit tests to validate your work.
