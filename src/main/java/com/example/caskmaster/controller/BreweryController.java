@@ -58,10 +58,6 @@ public class BreweryController {
 
     @GetMapping("/search2")
     public ResponseEntity<List<Brewery>> searchTest(@RequestParam("qq") String searchTerm, @RequestParam("pp") int perPage) {
-        // Todo http://localhost:8080/breweries/search2  ?  query = jackson  &  per_page = 2
-        //  Issue: If I were to use 'san%20diego' as the query:
-        //    I need to deserialize it before assigning it to the SearchCriteria obj.
-
         SearchCriteria searchCriteria = SearchCriteria
                 .builder()
                 .searchTerm(searchTerm)

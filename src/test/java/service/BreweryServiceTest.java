@@ -55,12 +55,12 @@ public class BreweryServiceTest {
 
         // Builds URI
         DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory(API_URL);
-        String uri = uriBuilderFactory.uriString("/search")
-                // Todo: How will I handle multiple queries DRY? (Disregard, HPth)
-                .queryParam(query, "{query}").build(value).toString();
-        System.out.println(uri);
+        String uri = uriBuilderFactory
+                .uriString("/search")
+                .queryParam(query, "{query}")
+                .build(value)
+                .toString();
 
-        //  Todo: Note: SSL verification is still going to trash the return; but the URL matches what the API demands.
         ResponseEntity<List<Brewery>> response = execute(uri);
 
         List<Brewery> list = response.getBody();
@@ -102,30 +102,31 @@ public class BreweryServiceTest {
         return response;
     }
 
-//    @Test
-//    public void scratch() {
-//        String BASE_URL = "https://api.openbrewerydb.org/v1/breweries";
-//        String fragment = "search";
-//        String frag = BASE_URL + "/" + fragment;
-//        SearchCriteria searchCriteria = new SearchCriteria();
-//        searchCriteria.setSearchTerm("san diego");
-//        searchCriteria.setPerPage(2);
-//
-//
-//        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(frag);
-//        // Todo: http://localhost:8080/breweries  /search   ?query   =san (Need to add: %20) diego
-//
-//        String uri = uriComponentsBuilder
-//                .queryParam("query", searchCriteria.getSearchTerm())
-//                .queryParam("per_page", searchCriteria.getPerPage())
-//                .toUriString();
-//
-//        System.out.println(searchCriteria.getSearchTerm());
-//        System.out.println(uri);
-//
-////        search?query=san%20diego&per_page=2
-////        search?query=san%20diego&per_page=3
-//    }
+    @Test
+    public void scratch() {
+        String BASE_URL = "https://api.openbrewerydb.org/v1/breweries";
+        String fragment = "search";
+        String frag = BASE_URL + "/" + fragment;
+        SearchCriteria searchCriteria =  SearchCriteria
+                .builder()
+                .searchTerm("san diego")
+                .perPage(2)
+                .build();
+
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(frag);
+
+        String uri = uriComponentsBuilder
+                .queryParam("query", searchCriteria.getSearchTerm())
+                .queryParam("per_page", searchCriteria.getPerPage())
+                .toUriString();
+        System.out.println(uri);
+
+//        search?query=san%20diego&per_page=2 (Our request: No data)(Returns data if run in browser.) (Issue unknown with our code)
+//        search?query=san%20diego&per_page=3 (Their API example: Data)
+//        Unknown issue  not returning data from the HostAPI
+//        when searchTerm has a ' ' in the value
+
+    }
 
 
 }

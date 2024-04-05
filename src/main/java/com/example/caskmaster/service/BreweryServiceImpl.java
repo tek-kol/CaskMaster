@@ -20,7 +20,6 @@ import java.util.Map;
 @Service
 public class BreweryServiceImpl implements BreweryService {
     RestTemplate restTemplate = new RestTemplate();
-    ObjectMapper mapper = new ObjectMapper();
 
     private static final String BASE_URL = "https://api.openbrewerydb.org/v1/breweries";
 
