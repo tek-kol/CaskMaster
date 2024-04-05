@@ -2,15 +2,14 @@ package com.example.caskmaster.controller;
 
 import com.example.caskmaster.dto.Brewery;
 import com.example.caskmaster.dto.BreweryApiMetaData;
+import com.example.caskmaster.dto.SearchCriteria;
 import com.example.caskmaster.service.BreweryServiceImpl;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/breweries")
@@ -34,8 +33,10 @@ public class BreweryController {
         return new ResponseEntity<>(brewery, HttpStatusCode.valueOf(200));
     }
 
+    @GetMapping
     public ResponseEntity<List<Brewery>> getBreweries() {
         List<Brewery> list = breweryServiceImpl.getBreweries();
+
 
         if (list.isEmpty()){
             return new ResponseEntity<>(list, HttpStatusCode.valueOf(404));
@@ -45,8 +46,8 @@ public class BreweryController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<Brewery>> searchForBreweries(@PathVariable("criteria") String criteria) {
-        List<Brewery> list = breweryServiceImpl.searchForBreweries(criteria);
+    public ResponseEntity<List<Brewery>> searchForBreweries(@RequestBody SearchCriteria searchCriteria) {
+        List<Brewery> list = breweryServiceImpl.searchForBreweries(searchCriteria);
 
         if (list.isEmpty()){
             return new ResponseEntity<>(list, HttpStatusCode.valueOf(404));
@@ -54,6 +55,32 @@ public class BreweryController {
 
         return new ResponseEntity<>(list, HttpStatusCode.valueOf(200));
     }
+
+    @GetMapping("/search2")
+    public ResponseEntity<List<Brewery>> searchTest(
+            @RequestParam("qq") String searchTerm,
+            @RequestParam("pp") int perPage)
+    {
+        // Todo http://localhost:8080/breweries/search2  ?  query = jackson  &  per_page = 2
+        //  Issue: If I were to use 'san%20diego' as the query:
+        //    I need to deserialize it before assigning it to the SearchCriteria obj.
+        System.out.println("******");
+        SearchCriteria searchCriteria = new SearchCriteria();
+        searchCriteria.setSearchTerm(searchTerm);
+        searchCriteria.setPerPage(perPage);
+
+        List<Brewery> list = breweryServiceImpl.searchForBreweries(searchCriteria);
+
+        System.out.println("SEARCH BREWERY");
+
+        if (list.isEmpty()){
+            return new ResponseEntity<>(list, HttpStatusCode.valueOf(404));
+        }
+
+        return new ResponseEntity<>(list, HttpStatusCode.valueOf(200));
+    }
+
+
 
     @GetMapping("/random")
     public ResponseEntity<List<Brewery>> getRandomBreweries() {

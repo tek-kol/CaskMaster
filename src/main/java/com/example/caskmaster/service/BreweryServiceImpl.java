@@ -2,6 +2,7 @@ package com.example.caskmaster.service;
 
 import com.example.caskmaster.dto.Brewery;
 import com.example.caskmaster.dto.BreweryApiMetaData;
+import com.example.caskmaster.dto.SearchCriteria;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -9,9 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class BreweryServiceImpl implements BreweryService {
@@ -36,13 +40,8 @@ public class BreweryServiceImpl implements BreweryService {
     }
 
     @Override
-    public List<Brewery> searchForBreweries(String... criteria) {
-        // Todo: See Test
-        //  We can compose a valid URI now
-        //  Need to consume params from GET
-
-
-        ResponseEntity<List<Brewery>> response = execute(buildUrl("search"));
+    public List<Brewery> searchForBreweries(SearchCriteria searchCriteria) {
+        ResponseEntity<List<Brewery>> response = execute(buildUrl("search", searchCriteria));
         return response.getBody();
     }
 
@@ -70,13 +69,20 @@ public class BreweryServiceImpl implements BreweryService {
     }
 
     private String buildUrl(String fragment) {
-        // Todo: Implement DefaultUriBuilderFactory here.
-        //  Or overload buildUrl to accept Map<String, String>
-        //  Any call that adds a parameter will need to employ the UriBuilder
-        //  Note: Will build the BASE_URL with empty or no data.
         StringBuilder url = new StringBuilder(BASE_URL);
         url.append("/").append(fragment);
         return url.toString();
+    }
+
+    private String buildUrl(String fragment, SearchCriteria searchCriteria){
+        String frag = buildUrl(fragment);
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(frag);
+
+
+        return uriComponentsBuilder
+                .queryParam("query", searchCriteria.getSearchTerm())
+                .queryParam("per_page", searchCriteria.getPerPage())
+                .toUriString();
     }
 
 

@@ -1,6 +1,7 @@
 package service;
 
 import com.example.caskmaster.dto.Brewery;
+import com.example.caskmaster.dto.SearchCriteria;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,16 +58,19 @@ public class BreweryServiceTest {
     @Test
     void searchForBreweries(){
 //        String searchURL = "https://api.openbrewerydb.org/v1/breweries/search?query=san%20diego&per_page=3";
-        Map<String, String> queries = new HashMap<>();
-        queries.put("query", "san diego");
+        Map<String, String> params = new LinkedHashMap<>();
+        params.put("query", "san diego");
+        params.put("per_page", "3");
+
+        String query = params.entrySet().iterator().next().getKey();
+        String value = params.entrySet().iterator().next().getValue();
 
         // Builds URI
         DefaultUriBuilderFactory uriBuilderFactory = new DefaultUriBuilderFactory(API_URL);
         String uri = uriBuilderFactory.uriString("/search")
-                // Todo: How will I handle multiple queries DRY?
-                .queryParam("query", "{query}")
-                .queryParam("per_page", "{per_page}")
-                .build("san diego", "3")
+                // Todo: How will I handle multiple queries DRY? (Disregard, HPth)
+                .queryParam(query, "{query}")
+                .build(value)
                 .toString();
         System.out.println(uri);
 
@@ -118,6 +123,29 @@ public class BreweryServiceTest {
         );
         return response;
     }
+
+    @Test
+    public void scratch(){
+        String BASE_URL = "https://api.openbrewerydb.org/v1/breweries";
+        String fragment = "search";
+        SearchCriteria searchCriteria = new SearchCriteria();
+        searchCriteria.setSearchTerm("san%20diego");
+        searchCriteria.setPerPage(2);
+
+
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(BASE_URL);
+        // Todo: http://localhost:8080/breweries  /search   ?query   =san%20diego
+
+        String uri = uriComponentsBuilder
+                .path("/" + fragment)
+                .queryParam("query", searchCriteria.getSearchTerm())
+                .build()
+                .toUriString();
+
+        System.out.println(uri);
+
+    }
+
 
 }
 
