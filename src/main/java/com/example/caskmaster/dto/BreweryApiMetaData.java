@@ -10,6 +10,3 @@ public class BreweryApiMetaData {
     @JsonProperty("per_page")
     private String perPage;
 }
-
-
-// Todo: I want to call this MetaDto

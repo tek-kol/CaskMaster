@@ -2,16 +2,17 @@ package com.example.caskmaster.controller;
 
 import com.example.caskmaster.dto.Brewery;
 import com.example.caskmaster.dto.BreweryApiMetaData;
+import com.example.caskmaster.dto.SearchCriteria;
 import com.example.caskmaster.service.BreweryServiceImpl;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
+@RequestMapping("/breweries")
 public class BreweryController {
 
     private final BreweryServiceImpl breweryServiceImpl;
@@ -21,8 +22,8 @@ public class BreweryController {
     }
 
 
-    @GetMapping("/brewery/{id}")
-    public ResponseEntity<Brewery> getBrewery(@PathVariable("id") String id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Brewery> getBrewery(@PathVariable String id) {
         Brewery brewery = breweryServiceImpl.getBrewery(id);
 
         if (brewery.equals(null)) {
@@ -32,44 +33,62 @@ public class BreweryController {
         return new ResponseEntity<>(brewery, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/breweries")
+    @GetMapping
     public ResponseEntity<List<Brewery>> getBreweries() {
         List<Brewery> list = breweryServiceImpl.getBreweries();
 
-        if (list.isEmpty()){
+
+        if (list.isEmpty()) {
             return new ResponseEntity<>(list, HttpStatusCode.valueOf(404));
         }
 
         return new ResponseEntity<>(list, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/breweries/search")
-    public ResponseEntity<List<Brewery>> searchForBreweries(@PathVariable("criteria") String criteria) {
-        List<Brewery> list = breweryServiceImpl.searchForBreweries(criteria);
+    @GetMapping("/search")
+    public ResponseEntity<List<Brewery>> searchForBreweries(@RequestBody SearchCriteria searchCriteria) {
+        List<Brewery> list = breweryServiceImpl.searchForBreweries(searchCriteria);
 
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             return new ResponseEntity<>(list, HttpStatusCode.valueOf(404));
         }
 
         return new ResponseEntity<>(list, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/breweries/random")
+    @GetMapping("/search2")
+    public ResponseEntity<List<Brewery>> searchTest(@RequestParam("qq") String searchTerm, @RequestParam("pp") int perPage) {
+        SearchCriteria searchCriteria = SearchCriteria
+                .builder()
+                .searchTerm(searchTerm)
+                .perPage(perPage)
+                .build();
+
+        List<Brewery> list = breweryServiceImpl.searchForBreweries(searchCriteria);
+        if (list.isEmpty()) {
+            return new ResponseEntity<>(list, HttpStatusCode.valueOf(404));
+        }
+
+        return new ResponseEntity<>(list, HttpStatusCode.valueOf(200));
+    }
+
+
+    @GetMapping("/random")
     public ResponseEntity<List<Brewery>> getRandomBreweries() {
         List<Brewery> list = breweryServiceImpl.getRandomBrewery();
 
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             return new ResponseEntity<>(list, HttpStatusCode.valueOf(404));
         }
 
         return new ResponseEntity<>(list, HttpStatusCode.valueOf(200));
     }
 
-    @GetMapping("/breweries/meta")
-    public ResponseEntity<BreweryApiMetaData> getMetaData(@PathVariable("criteria") String criteria) {
-        BreweryApiMetaData breweryApiMetaData = breweryServiceImpl.getMetaData(criteria);
+    @GetMapping("/meta")
+    public ResponseEntity<BreweryApiMetaData> getMetaData() {
+        BreweryApiMetaData breweryApiMetaData = breweryServiceImpl.getMetaData();
 
-        if (breweryApiMetaData.equals(new BreweryApiMetaData())) {
+        if (breweryApiMetaData.equals(null)) {
             return new ResponseEntity<>(breweryApiMetaData, HttpStatusCode.valueOf(404));
         }
 
